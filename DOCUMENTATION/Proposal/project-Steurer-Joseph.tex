@@ -1,0 +1,39 @@
+\documentclass[pdftex,10pt,a4paper]{article}
+\usepackage{titling}
+\setlength{\topmargin}{0in}
+
+\title{Boeing Team B CS397 Project Proposal \\
+{\small Implementation of Table Based Volumetric Compensation} }
+\author{Alex Bertels, Charles Ortman, Joseph Steurer, Kevin Zheng}
+
+\date{}
+\setlength{\droptitle}{-1.25in}
+
+\usepackage[top=1.25in, bottom=1.5in, left=1in, right=1in]{geometry}
+
+\begin{document}
+\maketitle
+\vspace{-40pt}
+
+\section*{Project Description Provided by Boeing} 
+In order to begin implementation of table based volumetric compensation on the production floor, a machine must be able to be calibrated by maintenance personnel. Current practice uses several Matlab files which are relatively complex to take the raw measurement data and generate compensation tables. A user interface which simplifies this process is therefore necessary. Such a program would take raw comma separated measurement data and a machine configuration and output compensation tables.  We propose that the program be created using C\#, and would like to take advantage of the techniques that those trained in computer science use to design a program to be easy to support and upgrade in the long run. These techniques could include class and functions created with future expansion in mind. We would also like to take advantage of versioning, archiving, and a team approach to programming. 
+
+\section*{Team B Project Proposal}
+There are two main processes for preparing readings from tools such that we may transform their output to volumetric compensation tables. The first task concerns obtaining measurements and cleaning the data prior to processing. We obtain 3D measurement positions from a long and short tool, yielding six values for every command position. These readings are recorded in a comma separated values (CSV) file and must undergo some preparation before processing. We are tasked with reconciling bad or missing measurements, aligning the long and short tools for a machine configuration, and ensuring the measurement distance between the two tools is constant. These values are adjusted until a particular offset achieves a specified value. 
+
+The second task, after the CSV input has been prepared, concerns aligning measurements with a position in a unique frame. We use the first six measurements to calculate the transformation. The transformation is then used to calculate tool kinematics. We remove command and measurement data from the model within a specified error bound. We then apply a maximum likelihood estimator as our final preprocessing step. The data is finally supplied as input to a DLL provided by Boeing to obtain the volumetric compensation tables. 
+
+The DLL used for processing is a Matlab script containing proprietary algorithms who's implementation is a trade secret of the Boeing company. We avoid issues with non-disclosure agreements by using this blackboxed DLL. Our software must operate on Windows XP and Windows 7 PCs of varying age on Boeing's production floor. The application requires that a user visually select a machine configuration to obtain a machine kinematic prior to preprocessing the CSV file. Using Visual Studio, the application will be developed in C\# so the software can be maintained by Boeing. We will be using the Git version control system to assist in managing the project. Each team member will be responsible for independent aspects throughout the development lifecycle.
+\pagebreak
+\section*{Roles and Responsibilities}
+The project is divided into four equal parts. Each team member is responsible for generating the artifacts, documentation, and code around their role. Joseph Steurer will handle scheduling, workflow, and correspondence as team lead. The following provides an overview of team responsibilities. It is expected that these roles will evolve during requirements analysis. 
+\begin{itemize}
+  \item Alex Bertels: Alex will handle validating alignment of measurements and parsing the Matlab DLL to generate output for command alignment. 
+  \item Charles Ortman: Charles will build the UI around the application and parse the input files required by the application. These configuration files will be used as input for aligning measurements.
+  \item Joseph Steurer: Joseph will parse and format output from the final phase of the application. These reports will visualize information from the final output of the software.
+  \item Kevin Zheng: Kevin will format and validate alignment of commands for the final Matlab processing phases. He will also be the team's contact for mathematics and statistics.   
+\end{itemize}
+
+\end{document}
+
+
